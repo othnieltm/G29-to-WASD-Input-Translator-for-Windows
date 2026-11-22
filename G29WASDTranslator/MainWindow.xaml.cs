@@ -105,8 +105,7 @@ public partial class MainWindow : Window
         _trayMenu.Items.Add(new Forms.ToolStripSeparator());
         _trayMenu.Items.Add("Exit", null, (_, _) =>
         {
-            _allowClose = true;
-            Dispatcher.Invoke(Close);
+            Dispatcher.Invoke(ExitApplication);
         });
         _trayIcon = new Forms.NotifyIcon
         {
@@ -485,6 +484,17 @@ public partial class MainWindow : Window
     private void StartStopButton_Click(object sender, RoutedEventArgs e)
     {
         if (_translationRunning) StopTranslation(); else StartTranslation();
+    }
+
+    private void ExitButton_Click(object sender, RoutedEventArgs e)
+    {
+        ExitApplication();
+    }
+
+    private void ExitApplication()
+    {
+        _allowClose = true;
+        Close();
     }
 
     private void Window_StateChanged(object sender, EventArgs e)

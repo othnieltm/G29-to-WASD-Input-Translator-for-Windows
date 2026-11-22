@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("G29WASDTranslator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+63d38804f6fd7665af60542011108dacc22f5452")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f1bd41c0f2bb9a4ec72c0988fb5cc564ff1d2a3b")]
 [assembly: System.Reflection.AssemblyProductAttribute("G29WASDTranslator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("G29WASDTranslator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

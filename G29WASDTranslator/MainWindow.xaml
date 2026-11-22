@@ -119,6 +119,7 @@
         </Grid>
         <DockPanel Grid.Row="2">
             <Button x:Name="StartStopButton" Content="Start Translation" Width="180" Height="42" FontSize="15" FontWeight="Bold" Click="StartStopButton_Click"/>
+            <Button x:Name="ExitButton" Content="Exit" Width="100" Height="42" Margin="10,0,0,0" FontSize="15" FontWeight="Bold" Click="ExitButton_Click"/>
             <TextBlock Text="DirectInput polling at 200 Hz" DockPanel.Dock="Right" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="#7A8490"/>
         </DockPanel>
     </Grid>
