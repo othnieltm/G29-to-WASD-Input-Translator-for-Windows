@@ -1,0 +1,7 @@
+C:\Users\Niel\Desktop\Projects\G29 to WASD Input Translator for Windows\G29WASDTranslator\bin\Release\net8.0-windows\win-x64\publish-friendly-ui\G29WASDTranslator.exe
+C:\Users\Niel\Desktop\Projects\G29 to WASD Input Translator for Windows\G29WASDTranslator\bin\Release\net8.0-windows\win-x64\publish-friendly-ui\G29WASDTranslator.dll
+C:\Users\Niel\Desktop\Projects\G29 to WASD Input Translator for Windows\G29WASDTranslator\bin\Release\net8.0-windows\win-x64\publish-friendly-ui\G29WASDTranslator.deps.json
+C:\Users\Niel\Desktop\Projects\G29 to WASD Input Translator for Windows\G29WASDTranslator\bin\Release\net8.0-windows\win-x64\publish-friendly-ui\G29WASDTranslator.runtimeconfig.json
+C:\Users\Niel\Desktop\Projects\G29 to WASD Input Translator for Windows\G29WASDTranslator\bin\Release\net8.0-windows\win-x64\publish-friendly-ui\G29WASDTranslator.pdb
+C:\Users\Niel\Desktop\Projects\G29 to WASD Input Translator for Windows\G29WASDTranslator\bin\Release\net8.0-windows\win-x64\publish-friendly-ui\SharpDX.dll
+C:\Users\Niel\Desktop\Projects\G29 to WASD Input Translator for Windows\G29WASDTranslator\bin\Release\net8.0-windows\win-x64\publish-friendly-ui\SharpDX.DirectInput.dll

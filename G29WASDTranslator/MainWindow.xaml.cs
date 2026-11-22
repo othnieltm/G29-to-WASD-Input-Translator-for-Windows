@@ -22,6 +22,7 @@ public partial class MainWindow : Window
     private volatile bool _translationRunning;
     private volatile bool _isStopping;
     private bool _allowClose;
+    private bool _applyingSteeringPreset;
     private bool _pedalCalibration;
     private DateTime _pedalCalibrationStarted;
     private int _acceleratorCalibrationMin = 65535;
@@ -65,13 +66,17 @@ public partial class MainWindow : Window
         InvertBrakeCheck.IsChecked = _settings.InvertBrake;
         StartupCheck.IsChecked = _settings.LaunchAtStartup;
         MinimizeToTrayCheck.IsChecked = _settings.MinimizeToTray;
+        SteeringPresetCombo.SelectedIndex =
+            _settings.SteeringDeadzonePercent == 8 && _settings.SteeringThresholdPercent == 20 ? 0 :
+            _settings.SteeringDeadzonePercent == 5 && _settings.SteeringThresholdPercent == 12 ? 1 :
+            _settings.SteeringDeadzonePercent == 2 && _settings.SteeringThresholdPercent == 5 ? 2 : 3;
         UpdateSettingLabels();
 
         SteeringAxisCombo.SelectionChanged += (_, _) => SaveSettings();
         AcceleratorAxisCombo.SelectionChanged += (_, _) => SaveSettings();
         BrakeAxisCombo.SelectionChanged += (_, _) => SaveSettings();
-        DeadzoneSlider.ValueChanged += (_, _) => { UpdateSettingLabels(); SaveSettings(); };
-        SteeringThresholdSlider.ValueChanged += (_, _) => { UpdateSettingLabels(); SaveSettings(); };
+        DeadzoneSlider.ValueChanged += (_, _) => { MarkCustomSteeringPreset(); UpdateSettingLabels(); SaveSettings(); };
+        SteeringThresholdSlider.ValueChanged += (_, _) => { MarkCustomSteeringPreset(); UpdateSettingLabels(); SaveSettings(); };
         AcceleratorThresholdSlider.ValueChanged += (_, _) => { UpdateSettingLabels(); SaveSettings(); };
         BrakeThresholdSlider.ValueChanged += (_, _) => { UpdateSettingLabels(); SaveSettings(); };
         InvertSteeringCheck.Checked += (_, _) => SaveSettings();
@@ -269,10 +274,93 @@ public partial class MainWindow : Window
 
     private void UpdateSettingLabels()
     {
-        DeadzoneValue.Text = $"{DeadzoneSlider.Value:0}%";
-        SteeringThresholdValue.Text = $"{SteeringThresholdSlider.Value:0}%";
-        AcceleratorThresholdValue.Text = $"{AcceleratorThresholdSlider.Value:0}%";
-        BrakeThresholdValue.Text = $"{BrakeThresholdSlider.Value:0}%";
+        if (!DeadzoneText.IsKeyboardFocusWithin)
+            DeadzoneText.Text = $"{DeadzoneSlider.Value:0}%";
+        if (!SteeringThresholdText.IsKeyboardFocusWithin)
+            SteeringThresholdText.Text = $"{SteeringThresholdSlider.Value:0}%";
+        if (!AcceleratorThresholdText.IsKeyboardFocusWithin)
+            AcceleratorThresholdText.Text = $"{AcceleratorThresholdSlider.Value:0}%";
+        if (!BrakeThresholdText.IsKeyboardFocusWithin)
+            BrakeThresholdText.Text = $"{BrakeThresholdSlider.Value:0}%";
+    }
+
+    private void ThresholdText_LostFocus(object sender, RoutedEventArgs e)
+    {
+        ApplyThresholdText((System.Windows.Controls.TextBox)sender);
+    }
+
+    private void ThresholdText_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == System.Windows.Input.Key.Enter)
+        {
+            ApplyThresholdText((System.Windows.Controls.TextBox)sender);
+            e.Handled = true;
+        }
+    }
+
+    private void ApplyThresholdText(System.Windows.Controls.TextBox textBox)
+    {
+        var text = textBox.Text.Trim().TrimEnd('%');
+        if (!double.TryParse(text, out var value))
+        {
+            UpdateSettingLabels();
+            return;
+        }
+
+        if (textBox == DeadzoneText)
+            DeadzoneSlider.Value = Math.Clamp(value, 0, 30);
+        else if (textBox == SteeringThresholdText)
+            SteeringThresholdSlider.Value = Math.Clamp(value, 1, 40);
+        else if (textBox == AcceleratorThresholdText)
+            AcceleratorThresholdSlider.Value = Math.Clamp(value, 0, 90);
+        else if (textBox == BrakeThresholdText)
+            BrakeThresholdSlider.Value = Math.Clamp(value, 0, 90);
+
+        UpdateSettingLabels();
+        SaveSettings();
+    }
+
+    private void SteeringPresetCombo_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        if (SteeringPresetCombo.SelectedIndex < 0)
+            return;
+
+        _applyingSteeringPreset = true;
+        switch (SteeringPresetCombo.SelectedIndex)
+        {
+            case 0:
+                DeadzoneSlider.Value = 8;
+                SteeringThresholdSlider.Value = 20;
+                break;
+            case 1:
+                DeadzoneSlider.Value = 5;
+                SteeringThresholdSlider.Value = 12;
+                break;
+            case 2:
+                DeadzoneSlider.Value = 2;
+                SteeringThresholdSlider.Value = 5;
+                break;
+        }
+        _applyingSteeringPreset = false;
+        UpdateSettingLabels();
+        SaveSettings();
+    }
+
+    private void MarkCustomSteeringPreset()
+    {
+        if (!_applyingSteeringPreset && SteeringPresetCombo.SelectedIndex != 3)
+            SteeringPresetCombo.SelectedIndex = 3;
+    }
+
+    private void ResetSettingsButton_Click(object sender, RoutedEventArgs e)
+    {
+        DeadzoneSlider.Value = 5;
+        SteeringThresholdSlider.Value = 12;
+        AcceleratorThresholdSlider.Value = 8;
+        BrakeThresholdSlider.Value = 8;
+        SteeringPresetCombo.SelectedIndex = 1;
+        UpdateSettingLabels();
+        SaveSettings();
     }
 
     private void SaveSettings()

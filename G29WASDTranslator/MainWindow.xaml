@@ -64,17 +64,53 @@
                             <Button x:Name="CalibratePedalsButton" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Content="Calibrate pedal ranges" Margin="0,6,0,0" Click="CalibratePedalsButton_Click"/>
                         </Grid>
                         <TextBlock x:Name="RawAxisValue" Text="Raw axes: waiting for device" FontSize="11" Foreground="#59636E" TextWrapping="Wrap" Margin="0,0,0,10"/>
-                        <TextBlock Text="Steering deadzone"/>
-                        <DockPanel><Slider x:Name="DeadzoneSlider" Minimum="0" Maximum="30" IsSnapToTickEnabled="True" TickFrequency="1"/><TextBlock x:Name="DeadzoneValue" Width="42" Text="5%" HorizontalAlignment="Right"/></DockPanel>
-                        <TextBlock Text="Steering activation threshold" Margin="0,8,0,0"/>
-                        <DockPanel><Slider x:Name="SteeringThresholdSlider" Minimum="1" Maximum="40" IsSnapToTickEnabled="True" TickFrequency="1"/><TextBlock x:Name="SteeringThresholdValue" Width="42" Text="12%" HorizontalAlignment="Right"/></DockPanel>
+                        <TextBlock Text="Steering sensitivity preset" Margin="0,2,0,5"/>
+                        <ComboBox x:Name="SteeringPresetCombo" Margin="0,0,0,8" SelectionChanged="SteeringPresetCombo_SelectionChanged">
+                            <ComboBoxItem Content="Gentle - easier steering"/>
+                            <ComboBoxItem Content="Balanced - everyday use"/>
+                            <ComboBoxItem Content="Precise - smaller steering movements"/>
+                            <ComboBoxItem Content="Custom"/>
+                        </ComboBox>
+                        <Grid Margin="0,2,0,4">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="74"/></Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Steering deadzone"/>
+                                <TextBlock Text="Keeps tiny wheel movements from activating keys" FontSize="10" Foreground="#7A8490"/>
+                            </StackPanel>
+                            <TextBox x:Name="DeadzoneText" Grid.Column="1" Width="64" Text="5%" TextAlignment="Right" VerticalAlignment="Center" LostFocus="ThresholdText_LostFocus" KeyDown="ThresholdText_KeyDown"/>
+                        </Grid>
+                        <Slider x:Name="DeadzoneSlider" Minimum="0" Maximum="30" IsSnapToTickEnabled="True" TickFrequency="1" Margin="0,0,0,8"/>
+                        <Grid Margin="0,2,0,4">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="74"/></Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Steering activation threshold"/>
+                                <TextBlock Text="How far the wheel must turn before A or D" FontSize="10" Foreground="#7A8490"/>
+                            </StackPanel>
+                            <TextBox x:Name="SteeringThresholdText" Grid.Column="1" Width="64" Text="12%" TextAlignment="Right" VerticalAlignment="Center" LostFocus="ThresholdText_LostFocus" KeyDown="ThresholdText_KeyDown"/>
+                        </Grid>
+                        <Slider x:Name="SteeringThresholdSlider" Minimum="1" Maximum="40" IsSnapToTickEnabled="True" TickFrequency="1" Margin="0,0,0,8"/>
                         <CheckBox x:Name="InvertSteeringCheck" Content="Invert steering direction" Margin="0,6,0,10"/>
-                        <TextBlock Text="Accelerator threshold"/>
-                        <DockPanel><Slider x:Name="AcceleratorThresholdSlider" Minimum="0" Maximum="90" IsSnapToTickEnabled="True" TickFrequency="1"/><TextBlock x:Name="AcceleratorThresholdValue" Width="42" Text="8%" HorizontalAlignment="Right"/></DockPanel>
+                        <Grid Margin="0,2,0,4">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="74"/></Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Accelerator threshold"/>
+                                <TextBlock Text="How far W must be pressed" FontSize="10" Foreground="#7A8490"/>
+                            </StackPanel>
+                            <TextBox x:Name="AcceleratorThresholdText" Grid.Column="1" Width="64" Text="8%" TextAlignment="Right" VerticalAlignment="Center" LostFocus="ThresholdText_LostFocus" KeyDown="ThresholdText_KeyDown"/>
+                        </Grid>
+                        <Slider x:Name="AcceleratorThresholdSlider" Minimum="0" Maximum="90" IsSnapToTickEnabled="True" TickFrequency="1" Margin="0,0,0,8"/>
                         <CheckBox x:Name="InvertAcceleratorCheck" Content="Invert accelerator axis" Margin="0,6,0,10"/>
-                        <TextBlock Text="Brake threshold"/>
-                        <DockPanel><Slider x:Name="BrakeThresholdSlider" Minimum="0" Maximum="90" IsSnapToTickEnabled="True" TickFrequency="1"/><TextBlock x:Name="BrakeThresholdValue" Width="42" Text="8%" HorizontalAlignment="Right"/></DockPanel>
+                        <Grid Margin="0,2,0,4">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="74"/></Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Brake threshold"/>
+                                <TextBlock Text="How far S must be pressed" FontSize="10" Foreground="#7A8490"/>
+                            </StackPanel>
+                            <TextBox x:Name="BrakeThresholdText" Grid.Column="1" Width="64" Text="8%" TextAlignment="Right" VerticalAlignment="Center" LostFocus="ThresholdText_LostFocus" KeyDown="ThresholdText_KeyDown"/>
+                        </Grid>
+                        <Slider x:Name="BrakeThresholdSlider" Minimum="0" Maximum="90" IsSnapToTickEnabled="True" TickFrequency="1" Margin="0,0,0,8"/>
                         <CheckBox x:Name="InvertBrakeCheck" Content="Invert brake axis" Margin="0,6,0,12"/>
+                        <Button x:Name="ResetSettingsButton" Content="Reset control thresholds" Height="30" Margin="0,0,0,10" Click="ResetSettingsButton_Click"/>
                         <CheckBox x:Name="StartupCheck" Content="Launch at Windows startup"/>
                         <CheckBox x:Name="MinimizeToTrayCheck" Content="Minimize to system tray" Margin="0,6,0,0"/>
                     </StackPanel>
